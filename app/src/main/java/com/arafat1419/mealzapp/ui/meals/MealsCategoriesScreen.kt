@@ -24,19 +24,19 @@ import com.arafat1419.mealzapp.model.response.MealResponse
 import com.arafat1419.mealzapp.ui.theme.MealzAppTheme
 
 @Composable
-fun MealsCategoriesScreen() {
+fun MealsCategoriesScreen(navigationCallback: (String) -> Unit) {
     val viewModel: MealsCategoriesViewModel = viewModel()
     val meals = viewModel.mealsState.value
 
     LazyColumn(contentPadding = PaddingValues(16.dp)) {
         items(meals) { meal ->
-            MealCategory(meal = meal)
+            MealCategory(meal = meal, navigationCallback)
         }
     }
 }
 
 @Composable
-fun MealCategory(meal: MealResponse) {
+fun MealCategory(meal: MealResponse, navigationCallback: (String) -> Unit) {
     var isExpanded by remember {
         mutableStateOf(false)
     }
@@ -47,6 +47,7 @@ fun MealCategory(meal: MealResponse) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp)
+            .clickable { navigationCallback(meal.id) }
     ) {
         Row(
             modifier = Modifier
@@ -96,7 +97,7 @@ fun MealCategory(meal: MealResponse) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    MealzAppTheme {
-        MealsCategoriesScreen()
-    }
+//    MealzAppTheme {
+//        MealsCategoriesScreen()
+//    }
 }
